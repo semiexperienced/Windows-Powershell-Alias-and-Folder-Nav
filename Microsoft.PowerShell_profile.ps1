@@ -27,7 +27,7 @@ function folder {
     )
   
     <# 
-    **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.
+    **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.**
     $targetFolder = 
       if ($Username) { 
         $targetFolder += '\user\Username' #replace with your username

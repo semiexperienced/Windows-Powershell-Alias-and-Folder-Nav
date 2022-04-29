@@ -68,3 +68,4 @@ Set-Alias mv      -Value move -Option AllScope
 Set-Alias ps      -Value tasklist -Option AllScope
 Set-Alias rm      -Value del -Option AllScope
 Set-Alias rmr     -Value deltree -Option AllScope
+Set-Alias get    -Value Get-Item 

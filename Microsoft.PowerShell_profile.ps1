@@ -26,10 +26,19 @@ function folder {
       [switch] $Help
     )
   
+    <# 
+    **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.
     $targetFolder = 
       if ($Username) { 
-        $targetFolder += '\user\swmur'
-      }
+        $targetFolder += '\user\Username' #replace with your username
+      } 
+      $targetFolder = 
+    if ($Username) { 
+      Join-Path (Split-Path -LiteralPath $HOME) $Username
+    } else {
+      $HOME
+    }
+    #>
     if ($Scripts) {
       $targetFolder += '\Desktop\Scripts'
     } 
@@ -39,7 +48,7 @@ function folder {
     else { 
         echo "
         -H         Display help. This is the same as not typing any options.
-        -U         Change to the 'Username' directory
+       # -U         Change to the 'Username' directory
         -S         Change to the 'scripts' directory
         -D         Change to the 'desktop' directory"
         

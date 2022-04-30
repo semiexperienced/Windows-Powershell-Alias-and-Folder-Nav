@@ -1,18 +1,6 @@
 #place in \users\username\documants\windowspowershell
 function  display-path {Get-ChildItem Env:Path }
 
-    <# 
-    **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.**
-    $targetFolder = 
-      if ($Username) { 
-        $targetFolder += '\user\Username' #replace with your username
-      } 
-       
-    if ($Username) { 
-      Join-Path (Split-Path -LiteralPath $HOME) $Username
-    } else {
-      $HOME
-    } #>
     function folder {
         [CmdletBinding(DefaultParameterSetName='Default')]
         param(    
@@ -37,7 +25,18 @@ function  display-path {Get-ChildItem Env:Path }
           [Parameter(ParameterSetName = 'root')]
           [switch]$root
         )
-      
+       <# 
+    **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.**
+    $targetFolder = 
+      if ($Username) { 
+        $targetFolder += env:USERPROFILE #replace with your username
+      } 
+       
+    if ($Username) { 
+      Join-Path (Split-Path -LiteralPath $HOME) $Username
+    } else {
+      $HOME
+    } #>
         $targetFolder =  $env:USERPROFILE
         if ($Username) { 
             $targetFolder = $env:USERPROFILE

@@ -19,10 +19,12 @@ function  display-path {Get-ChildItem Env:Path }
           [Alias('u')]
           [switch] $Username
           ,
+          <#
+          example for your own folder. see line 46
           [Alias('s')]
           [Parameter(ParameterSetName='Scripts')]
           [switch] $Scripts
-          ,
+          ,                                     #>
           [Parameter(ParameterSetName='Desktop')]
           [Alias('d')]
           [switch] $Desktop
@@ -41,9 +43,10 @@ function  display-path {Get-ChildItem Env:Path }
             $targetFolder = $env:USERPROFILE
             $u = ' -U'
           }
+          <# example continued.
           elseif ($Scripts) {
           $targetFolder += '\Desktop\Scripts'
-        }
+        }#>
           elseif ($Desktop) {
           $targetFolder += '\Desktop'
         }

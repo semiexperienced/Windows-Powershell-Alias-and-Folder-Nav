@@ -1,61 +1,76 @@
 function  display-path {Get-ChildItem Env:Path }
-function folder {
-    <#
-    .Descripton
-    /?         Display help. This is the same as not typing any options.
-    /Username  Change to the "Username" directory
-    /S         Change to the "scripts" directory
-    /D         Change to the "desktop" directory
-    #>
-    [CmdletBinding(DefaultParameterSetName='Default')]
-    param(    
-      [Alias('u')]
-      [Parameter(ParameterSetName='User')]
-      [switch] $Username
-      ,
-      [Alias('s')]
-      [Parameter(ParameterSetName='Scripts')]
-      [switch] $Scripts
-      ,
-      [Parameter(ParameterSetName='Desktop')]
-      [Alias('d')]
-      [switch] $Desktop
-      ,
-      [Alias('h')]
-      [Parameter(ParameterSetName='help')]
-      [switch] $Help
-    )
-  
+
     <# 
     **One of these can be used to navigate to the username directory. The first will only allow you to navigate to one user, the second allows for you to select the user.**
     $targetFolder = 
       if ($Username) { 
         $targetFolder += '\user\Username' #replace with your username
       } 
-      $targetFolder = 
+       
     if ($Username) { 
       Join-Path (Split-Path -LiteralPath $HOME) $Username
     } else {
       $HOME
-    }
-    #>
-    if ($Scripts) {
-      $targetFolder += '\Desktop\Scripts'
-    } 
-    elseif ($Desktop) {
-      $targetFolder += '\Desktop'
-    }
-    else { 
+    } #>
+    function folder {
+        [CmdletBinding(DefaultParameterSetName='Default')]
+        param(    
+          [Alias('u')]
+          [switch] $Username
+          ,
+          [Alias('s')]
+          [Parameter(ParameterSetName='Scripts')]
+          [switch] $Scripts
+          ,
+          [Parameter(ParameterSetName='Desktop')]
+          [Alias('d')]
+          [switch] $Desktop
+          ,
+          [Alias('h')]
+          [Parameter(ParameterSetName = 'help')]
+          [switch]$Help
+          ,
+          [Alias('r')]
+          [Parameter(ParameterSetName = 'root')]
+          [switch]$root
+        )
+      
+        $targetFolder =  $env:USERPROFILE
+        if ($Username) { 
+            $targetFolder = $env:USERPROFILE
+            $u = ' -U'
+          }
+          elseif ($Scripts) {
+          $targetFolder += '\Desktop\Scripts'
+        }
+          elseif ($Desktop) {
+          $targetFolder += '\Desktop'
+        }
+          elseif ($root) {
+  
+            ## same as other but we can use $env:homedrive for the root of C:
+        
+            $targetFolder = $env:HOMEDRIVE + '\'
+            $r = ' -R '
+        
+          }
+        elseif ($Help) {
         echo "
         -H         Display help. This is the same as not typing any options.
-       # -U         Change to the 'Username' directory
+        -U         Change to the 'Username' directory
         -S         Change to the 'scripts' directory
         -D         Change to the 'desktop' directory"
-        
     }
-  
-    Push-Location -LiteralPath $targetFolder
-}
+        else {
+        echo "
+        -H         Display help. This is the same as not typing any options.
+        -U         Change to the 'Username' directory
+        -S         Change to the 'scripts' directory
+        -D         Change to the 'desktop' directory"
+    }
+      
+        Push-Location -LiteralPath $targetFolder
+      }
 
 set-alias -Name path -Value display-path
 Set-Alias -Name ip -Value ipconfig -Option AllScope

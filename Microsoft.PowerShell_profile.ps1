@@ -1,3 +1,4 @@
+#place in \users\username\documants\windowspowershell
 function  display-path {Get-ChildItem Env:Path }
 
     <# 
